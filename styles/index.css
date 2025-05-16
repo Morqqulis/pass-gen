@@ -3,7 +3,6 @@
 :root {
 	--foreground: #d4d4d4;
 	--background: #060720;
-	--green: #4cd964;
 	--border: #2e2e39;
 	--primary: #4cd964;
 }
@@ -103,7 +102,7 @@ body {
 }
 
 .strength-value {
-	color: var(--green);
+	color: var(--primary);
 }
 
 .setting-item {
@@ -215,10 +214,13 @@ input:checked + .switch-slider:before {
 	font-weight: bold;
 	letter-spacing: 1px;
 	margin-top: 1rem;
-	transition: opacity 0.3s;
+	transition: opacity 0.3s, scale 0.3s;
+	&:active {
+		scale: 0.9;
+	}
+	&:hover {
+		opacity: 0.9;
+	}
 }
 
-.generate-btn:hover {
-	opacity: 0.9;
-}
 /* ---------------------------------------------- */
