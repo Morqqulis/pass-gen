@@ -9,7 +9,7 @@ const config = {
 	symbols: true,
 }
 
-// Наборы символов
+// // Наборы символов
 const charSets = {
 	uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
 	lowercase: 'abcdefghijklmnopqrstuvwxyz',
@@ -17,35 +17,32 @@ const charSets = {
 	symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?',
 }
 
-// Элементы DOM
-let elements = {}
-
-// Инициализация элементов DOM
-function initElements() {
-	elements = {
-		lengthSlider: document.getElementById('length-slider'),
-		lengthValue: document.querySelector('.length-value'),
-		resultBox: document.querySelector('.result-box'),
-		copyBtn: document.querySelector('.copy-btn'),
-		generateBtn: document.querySelector('.generate-btn'),
-		strengthValue: document.querySelector('.strength-value'),
-		strengthIcon: document.querySelector('.strength-icon'),
-		checkboxes: {
-			uppercase: document.getElementById('uppercase'),
-			lowercase: document.getElementById('lowercase'),
-			numbers: document.getElementById('numbers'),
-			symbols: document.getElementById('symbols'),
-		},
-	}
+// // Элементы DOM
+let elements = {
+	lengthSlider: document.getElementById('length-slider'),
+	lengthValue: document.querySelector('.length-value'),
+	resultBox: document.querySelector('.result-box'),
+	copyBtn: document.querySelector('.copy-btn'),
+	generateBtn: document.querySelector('.generate-btn'),
+	strengthValue: document.querySelector('.strength-value'),
+	strengthIcon: document.querySelector('.strength-icon'),
+	checkboxes: {
+		uppercase: document.getElementById('uppercase'),
+		lowercase: document.getElementById('lowercase'),
+		numbers: document.getElementById('numbers'),
+		symbols: document.getElementById('symbols'),
+	},
 }
 
-// Инициализация событий
+// // Инициализация элементов DOM
+
+// // Инициализация событий
 function initEvents() {
 	// Изменение длины пароля
 	elements.lengthSlider.addEventListener('input', () => {
-		// const length = elements.lengthSlider.value
-		config.length = elements.lengthSlider.value
-		elements.lengthValue.textContent = elements.lengthSlider.value
+		const length = elements.lengthSlider.value
+		config.length = length
+		elements.lengthValue.textContent = length
 		generatePassword()
 	})
 
@@ -85,11 +82,11 @@ function generatePassword() {
 
 	// Генерация пароля
 	let password = ''
-	const length = config.length
 
 	// Сначала добавляем по одному символу из каждого выбранного набора
 	// для гарантии наличия всех типов символов в пароле
 	const selectedTypes = Object.keys(charSets).filter(type => config[type])
+
 	selectedTypes.forEach(type => {
 		const charSet = charSets[type]
 		const randomChar = charSet.charAt(Math.floor(Math.random() * charSet.length))
@@ -97,7 +94,7 @@ function generatePassword() {
 	})
 
 	// Затем добавляем случайные символы из всех доступных наборов
-	for (let i = selectedTypes.length; i < length; i++) {
+	for (let i = selectedTypes.length; i < config.length; i++) {
 		const randomIndex = Math.floor(Math.random() * allChars.length)
 		password += allChars.charAt(randomIndex)
 	}
@@ -120,7 +117,7 @@ function shuffleString(str) {
 	return array.join('')
 }
 
-// Расчет сложности пароля
+// // Расчет сложности пароля
 function calculateStrength() {
 	const { length, uppercase, lowercase, numbers, symbols } = config
 
@@ -139,7 +136,7 @@ function calculateStrength() {
 	return Math.min(4, Math.floor((strength + varietyScore) / 2))
 }
 
-// Обновление индикатора сложности пароля
+// // Обновление индикатора сложности пароля
 function updateStrength(strength) {
 	const strengthLabels = ['Очень слабый', 'Слабый', 'Средний', 'Сильный', 'Очень сильный']
 	elements.strengthValue.textContent = strengthLabels[strength]
@@ -154,13 +151,12 @@ function updateStrength(strength) {
 	}
 }
 
-// Копирование пароля в буфер обмена
+// // Копирование пароля в буфер обмена
+
 function copyToClipboard() {
 	const password = elements.resultBox.textContent
 
-	if (!password || password === 'Выберите хотя бы один тип символов') {
-		return
-	}
+	if (!password || password === 'Выберите хотя бы один тип символов') return
 
 	navigator.clipboard
 		.writeText(password)
@@ -178,9 +174,8 @@ function copyToClipboard() {
 		})
 }
 
-// Инициализация приложения при загрузке страницы
+// // Инициализация приложения при загрузке страницы
 function init() {
-	initElements()
 	initEvents()
 	generatePassword()
 }
